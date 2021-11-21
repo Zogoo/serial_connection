@@ -1,0 +1,7 @@
+{
+    "board": "arduino:avr:pro",
+    "programmer": "AVR ISP",
+    "port": "/dev/cu.usbmodem14101",
+    "sketch": "ic/ic.ino",
+    "configuration": "cpu=16MHzatmega328"
+}

@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:leonardo",
+    "sketch": "uart_echo.ino",
+    "port": "/dev/cu.usbmodem144401"
+}

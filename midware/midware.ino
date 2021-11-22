@@ -1,12 +1,16 @@
 #include <Wire.h>
 #define SLAVE_ADDRESS 0x08
+#define BAUD_RATE 115200
 
 String data_in_echo;
-byte *data_tobe_sent;
+String data_out_echo;
+bool is_data_received;
 
 void setup()
 {
-  Serial.begin(115200);
+  is_data_received = false;
+  data_out_echo = "\n";
+  Serial.begin(BAUD_RATE);
   pinMode(LED_BUILTIN, OUTPUT);
   Wire.begin(SLAVE_ADDRESS);
   Wire.onReceive(receiveData);
@@ -15,9 +19,12 @@ void setup()
 
 void loop()
 {
-  if (Serial.available())
+  if (Serial.available() && is_data_received)
   {
-    data_in_echo = Serial.readStringUntil('\n');
+    Serial.println(data_in_echo);
+    data_out_echo = Serial.readStringUntil('\n');
+    data_in_echo = "\n";
+    is_data_received = false;
   }
 }
 
@@ -28,14 +35,15 @@ void receiveData(int bytecount)
     data_in_echo[i] = Wire.read();
     digitalWrite(LED_BUILTIN, HIGH); // turn the LED on (HIGH is the voltage level)
   }
-  if (Serial.available())
-  {
-    Serial.println(data_in_echo);
-  }
+  is_data_received = true;
 }
 
 void sendData()
 {
-  Wire.write(data_in_echo.toInt());
-  digitalWrite(LED_BUILTIN, LOW); // turn the LED off by making the voltage LOW
+  if (!is_data_received){
+    Wire.write(data_out_echo.toInt());
+    digitalWrite(LED_BUILTIN, LOW); // turn the LED off by making the voltage LOW
+  } else {
+    Wire.write('\0');
+  }
 }

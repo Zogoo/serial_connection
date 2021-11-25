@@ -19,7 +19,7 @@ void setup()
 
 void loop()
 {
-  if (Serial.available() && is_data_received)
+  if (Serial.availableForWrite() > 15 && is_data_received)
   {
     Serial.println(data_in_echo);
     data_out_echo = Serial.readStringUntil('\n');

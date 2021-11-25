@@ -9,7 +9,7 @@ int main (int argc, char **argv)
 {
     // Setup I2C communication
     int received_char = 0;
-    char data_to_send[] = "Hello Leanordo";
+    char data_to_send[] = "Hello Leanordo\n";
     char received_data[300] = "none";
     int fd = wiringPiI2CSetup(DEVICE_ID);
     if (fd == -1) {

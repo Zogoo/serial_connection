@@ -24,12 +24,13 @@ int main (int argc, char **argv)
         for (int i = 0; i < sizeof(data_to_send); i++)
         {
             wiringPiI2CWrite(fd, data_to_send[i]);
-            received_char = wiringPiI2CRead(fd);
-            received_data[i]= received_char;
-            if (received_char == 32)
-            {
-                break;
-            }
+        }
+
+        received_char = wiringPiI2CRead(fd);
+        received_data[i] = received_char;
+        if (received_char == 32)
+        {
+            break;
         }
         cout << "Data received: " << received_data << "\n";
     }

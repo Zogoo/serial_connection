@@ -12,6 +12,6 @@ void loop()
   if (Serial.available() > 15)
   {
     String data = Serial.readStringUntil('\n');
-    Serial.println("You sent me: " + data);
+    Serial.println("You sent me: " + data + "\n");
   }
 }

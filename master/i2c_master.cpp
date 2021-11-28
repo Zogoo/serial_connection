@@ -23,20 +23,26 @@ int main (int argc, char **argv)
         for (int i = 0; i < sizeof(data_to_send); i++)
         {
             wiringPiI2CWrite(fd, data_to_send[i]);
-            cout << "Sent data: " << data_to_send[i] << "\n";
         }
+        cout << "Sent data: " << data_to_send << "\n";
 
-        received_char = wiringPiI2CRead(fd);
-        if (received_char > 0) {
-            cout << "char received: " << received_char << "\n";
-            received_data[recv_indx] = received_char;
-            recv_indx ++;
+        recv_indx = 0;
+        while(true) {
+            received_char = wiringPiI2CRead(fd);
+            cout << "\r" << "Char received: " << received_char << flush;
+            if (received_char > 0)
+            {
+                received_data[recv_indx] = received_char;
+                received_char = 0;
+                recv_indx++;
+                break;
+            }
+            if (received_char == 32)
+            {
+                break;
+            }
         }
         cout << "Data received: " << received_data << "\n";
-        if (received_char == 32)
-        {
-            break;
-        }
     }
     return 0;
 }

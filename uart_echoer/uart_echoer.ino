@@ -10,10 +10,11 @@ void setup()
 void loop()
 {
   // put your main code here, to run repeatedly:
-  if (Serial.available() > 15)
+  if (Serial.available() > 0)
   {
     String data = Serial.readStringUntil('\n');
     digitalWrite(LED_BUILTIN, HIGH);
     Serial.println("You sent me: " + data + "\n");
+    digitalWrite(LED_BUILTIN, LOW);
   }
 }

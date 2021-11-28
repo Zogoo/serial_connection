@@ -20,10 +20,10 @@ void setup()
 
 void loop()
 {
-  if (Serial.availableForWrite() > 15 && i2c_data_received)
+  if (Serial.available() > 0 && i2c_data_received)
   {
-    Serial.println(data_in_echo);
-    data_in_echo = "\n";
+    // Serial.println(data_in_echo);
+    // data_in_echo = "\n";
     data_out_echo = Serial.readStringUntil('\n');
     serial_data_recieved = true;
     i2c_data_received = false;
@@ -36,6 +36,8 @@ void receiveData(int bytecount)
   {
     data_in_echo[i] = Wire.read();
   }
+  Serial.println(bytecount);
+  Serial.println(data_in_echo);
   i2c_data_received = true;
 }
 

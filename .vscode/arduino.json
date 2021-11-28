@@ -1,0 +1,6 @@
+{
+    "port": "/dev/cu.usbserial-14620",
+    "configuration": "cpu=16MHzatmega328",
+    "board": "arduino:avr:pro",
+    "sketch": "midware/midware.ino"
+}

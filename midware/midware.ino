@@ -25,7 +25,7 @@ void loop()
     Serial.println(data_in_echo);
     data_in_echo = "\n";
     data_out_echo = Serial.readStringUntil('\n');
-    serial_data_recieved = false;
+    serial_data_recieved = true;
     i2c_data_received = false;
   }
 }

@@ -27,14 +27,16 @@ int main (int argc, char **argv)
         }
 
         received_char = wiringPiI2CRead(fd);
-        cout << "char received: " << received_char << "\n";
-        received_data[recv_indx] = received_char;
+        if (received_char > 0) {
+            cout << "char received: " << received_char << "\n";
+            received_data[recv_indx] = received_char;
+            recv_indx ++;
+        }
+        cout << "Data received: " << received_data << "\n";
         if (received_char == 32)
         {
             break;
         }
-        recv_indx ++;
-        cout << "Data received: " << received_data << "\n";
     }
     return 0;
 }

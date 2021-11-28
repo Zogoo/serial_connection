@@ -4,11 +4,13 @@
 
 String data_in_echo;
 String data_out_echo;
-bool is_data_received;
+bool i2c_data_received;
+bool serial_data_recieved;
 
 void setup()
 {
-  is_data_received = false;
+  i2c_data_received = false;
+  serial_data_recieved = false;
   data_out_echo = "\n";
   Serial.begin(BAUD_RATE);
   Wire.begin(SLAVE_ADDRESS);
@@ -18,12 +20,13 @@ void setup()
 
 void loop()
 {
-  if (Serial.availableForWrite() > 15 && is_data_received)
+  if (Serial.availableForWrite() > 15 && i2c_data_received)
   {
     Serial.println(data_in_echo);
     data_in_echo = "\n";
     data_out_echo = Serial.readStringUntil('\n');
-    is_data_received = false;
+    serial_data_recieved = false;
+    i2c_data_received = false;
   }
 }
 
@@ -33,12 +36,13 @@ void receiveData(int bytecount)
   {
     data_in_echo[i] = Wire.read();
   }
-  is_data_received = true;
+  i2c_data_received = true;
 }
 
 void sendData()
 {
-  if (!is_data_received) {
-    Wire.write(data_out_echo);
+  if (serial_data_recieved && data_out_echo.length() > 0)
+  {
+    Wire.write(data_out_echo.c_str());
   }
 }

@@ -15,7 +15,7 @@ int main (int argc, char **argv)
     int received_char = 0;
     int recv_indx = 0;
     char data_to_send[] = "\0Hello Leanordo\n";
-    char received_data[300] = "none";
+    char received_data[300] = "default";
     int file;
     char filename[20];
 
@@ -54,26 +54,15 @@ int main (int argc, char **argv)
             cout << "Failed to read I2C.\n";
             return -1;
         }
-        cout << "Data received: " << received_data << "\n";
         if (sizeof(received_data) > 16) break;
     }
+
+    cout << "Data received: " << received_data << "\n";
 
     if (file)
     {
         close(file);
     }
-
-    // __s32 res;
-    // res = i2c_smbus_read_word_data(file, reg);
-    // if (res < 0)
-    // {
-    //     cout << "Failed to read I2C.\n";
-    //     return -1;
-    // }
-    // else
-    // {
-    //     c
-    // }
 
     return 0;
 }

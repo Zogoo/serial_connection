@@ -11,7 +11,7 @@ void setup()
 {
   i2c_data_received = false;
   serial_data_recieved = false;
-  data_out_echo = "this is default data\n";
+  data_out_echo = "default\0";
   Serial.begin(BAUD_RATE);
   Wire.begin(SLAVE_ADDRESS);
   Wire.onReceive(receiveData);
@@ -30,6 +30,7 @@ void loop()
     {
       data_out_echo = Serial.readStringUntil('\n');
       if (data_out_echo.length() > 0) serial_data_recieved = true;
+      Serial.println("Data recieved via Serial: " + data_out_echo);
     }
   }
 }
@@ -56,15 +57,14 @@ void sendData()
 {
   unsigned int data_out_length = data_out_echo.length();
 
-  // if (serial_data_recieved && data_out_length > 1)
   if (data_out_length > 1)
   {
     byte data_out_bytes[data_out_length];
     data_out_echo.getBytes(data_out_bytes, data_out_length);
 
     // Debug without echoer
-    String msg = String((char *)data_out_bytes);
-    Serial.println("Data length: " + msg);
+    // String msg = String((char *)data_out_bytes);
+    // Serial.println("Data length: " + msg);
 
     Wire.write(data_out_bytes, data_out_length);
     serial_data_recieved = false;

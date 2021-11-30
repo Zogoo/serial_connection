@@ -1,4 +1,7 @@
 #include <iostream>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
 #include <linux/i2c-dev.h>
 #include <i2c/smbus.h>
 
@@ -43,14 +46,17 @@ int main (int argc, char **argv)
     }
     cout << "Sent data: " << data_to_send << "\n";
 
-    /* Using I2C Read, equivalent of i2c_smbus_read_byte(file) */
-    if (read(file, received_data, 30) != 30)
+    while (true)
     {
-        cout << "Failed to read I2C.\n";
-        return -1;
+        /* Using I2C Read, equivalent of i2c_smbus_read_byte(file) */
+        if (read(file, received_data, 30) != 30)
+        {
+            cout << "Failed to read I2C.\n";
+            return -1;
+        }
+        cout << "Data received: " << received_data << "\n";
+        if (sizeof(received_data) > 16) break;
     }
-
-    cout << "Data received: " << received_data << "\n";
 
     if (file)
     {

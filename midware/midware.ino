@@ -24,7 +24,6 @@ void loop()
   {
     if(i2c_data_received) {
       Serial.println(data_in_echo);
-      data_in_index = 0;
       i2c_data_received = false;
     }
     else if (!serial_data_recieved)
@@ -53,14 +52,15 @@ void receiveData(int bytecount)
 
 void sendData()
 {
-  int data_out_length = data_out_echo.length();
+  unsigned int data_out_length = data_out_echo.length();
 
   if (serial_data_recieved && data_out_length > 1)
   {
     // Debug without echoer
-    char data_out_bytes[data_out_length];
-    data_out_echo.getBytes(data_out_byte, data_out_length);
-    Serial.println("Data length: " + data_out_byte);
+    byte data_out_bytes[data_out_length];
+    data_out_echo.getBytes(data_out_bytes, data_out_length);
+    String msg = String((char *)data_out_bytes);
+    Serial.println("Data length: " + msg);
     Wire.write(data_out_bytes, data_out_length);
     serial_data_recieved = false;
   }

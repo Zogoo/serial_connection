@@ -11,7 +11,7 @@ def writeStringToI2C(value):
 
 def readStringFromI2C():
   charArr = []
-  smbus.read_i2c_block_data(MIDWARE_ADDRESS, charArr)
+  charArr = bus.read_i2c_block_data(MIDWARE_ADDRESS, 0x00)
   return BytesToString(charArr)
 
 def StringToBytes(val):
@@ -29,4 +29,4 @@ def BytesToString(val):
 while True:
     writeStringToI2C("Hello Leanordo")
     time.sleep(0.1)
-    print(readStringFromI2C)
+    print(readStringFromI2C())
